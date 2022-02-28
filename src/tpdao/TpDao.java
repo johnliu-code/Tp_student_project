@@ -45,7 +45,7 @@ public class TpDao {
         String backToMenu = "Y";
         while ("Y".equals(backToMenu)) {
 
-            System.out.println("Which case you want to work for? 1: Student; 2: Course; 3: Results? Please entre your choice number: ");
+            System.out.println("Which case you want to work for? 1: Student; 2: Course; 3: Results; 4: Quit? Please entre your choice number: ");
             int choiceMenuNum = sc.nextInt();
 
             switch (choiceMenuNum) {
@@ -190,11 +190,19 @@ public class TpDao {
                     }
 
                     break;
+                case 4:
+                    break;
+
                 default:
                     System.out.println("Please entre number from 1 to 3");
             }
-            System.out.println("Back to Main menu: Y/N?");
-            backToMenu = sc.next().toUpperCase();
+            if (choiceMenuNum != 4) {
+                System.out.println("Back to Main menu: Y/N?");
+                backToMenu = sc.next().toUpperCase();
+            } else {
+                break;
+            }
+
         }
     }
 }
