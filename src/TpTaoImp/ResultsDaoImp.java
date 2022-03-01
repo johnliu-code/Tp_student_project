@@ -12,6 +12,7 @@ import Model.Course;
 import Model.Results;
 import Model.Student;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,8 +24,7 @@ public class ResultsDaoImp implements ResultsDao {
 
     Scanner sc = new Scanner(System.in);
     private final List<Results> listResults;
-//    StudentDao studentDao = new StudentDaoImp();
-//    CourseDao courseDao = new CourseDaoImp();
+
     List<Student> listStudents = new ArrayList<>();
     List<Course> listCourse = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class ResultsDaoImp implements ResultsDao {
                         for (Course c : listCourses) {
                             if (c.getId() == courseId) {
                                 course = c;
-                                System.out.println("Course Id of " + c.getId()+" " + "is: " + course.getCourseName());
+                                System.out.println("Course Id of " + c.getId() + " " + "is: " + course.getCourseName());
                                 System.out.println("Please entre Mark1 for Cours: " + course.getCourseName());
                                 mark1 = sc.nextDouble();
                                 System.out.println("Please entre Mark2 for Cours: " + course.getCourseName());
@@ -89,18 +89,33 @@ public class ResultsDaoImp implements ResultsDao {
         System.out.println("Delete results from which course? Please entre course Id");
         int deleteCourseId = sc.nextInt();
 
-        for (Results r : listResults) {
-            if (r.getStudent().getId() == deleteStuId && r.getCourse().getId() == deleteCourseId) {
-                System.out.println("Are you sure want to delete Student: " + r.getStudent().getFirstName() + " " + "with Course : " + r.getCourse().getCourseName() + " all of the Results? Y/N");
+//        for (int i = 0; i < listResults.size(); i ++) {
+//            if (listResults.get(i).getStudent().getId() == deleteStuId && listResults.get(i).getCourse().getId() == deleteCourseId) {
+//                System.out.println("Are you sure want to delete Student: " + listResults.get(i).getStudent().getFirstName() + " " 
+//                        + "with Course : " + listResults.get(i).getCourse().getCourseName() + " all of the Results? Y/N");
+//                String choice = sc.next().toUpperCase();
+//                if ("Y".equals(choice)) {
+//                    listResults.remove(i);
+//                } else {
+//                    break;
+//                }
+//            }
+//            break;
+//        }
+        List<Results> resultsToRemove = new ArrayList<>();
+        listResults.forEach((Results r) -> {
+            int studentId = r.getStudent().getId();
+            int courseId = r.getCourse().getId();
+            if (studentId == deleteStuId && courseId == deleteCourseId) {
+                System.out.println("Are you sure want to delete Student: " + r.getStudent().getFirstName() + " "
+                        + "with Course : " + r.getCourse().getCourseName() + " all of the Results? Y/N");
                 String choice = sc.next().toUpperCase();
-                if ("Y".equals(choice)) {
-                    listResults.remove(r);
-                } else {
-                    break;
+                if("Y".equals(choice)) {
+                    resultsToRemove.add(r);
                 }
             }
-            break;
-        }
+        });
+        listResults.removeAll(resultsToRemove);
     }
 
     @Override

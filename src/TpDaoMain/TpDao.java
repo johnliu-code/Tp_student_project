@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tpdao;
+package TpDaoMain;
 
 import InterfaceDao.CourseDao;
 import InterfaceDao.ResultsDao;
@@ -32,11 +32,12 @@ public class TpDao {
         // Student       
         StudentDao studentDao = new StudentDaoImp();
         Student student = new Student();
-        List<Student> liststudents = studentDao.findAll();
+        List<Student> listStudents = studentDao.findAll();
+
         // Course
         CourseDao courseDao = new CourseDaoImp();
         Course course = new Course();
-        List<Course> listcourses = courseDao.findAll();
+        List<Course> listCourses = courseDao.findAll();
         // Results
         ResultsDao resultsDao = new ResultsDaoImp();
         Results results = new Results();
@@ -54,7 +55,7 @@ public class TpDao {
                     while ("Y".equals(backStudentMenu)) {
                         System.out.println("Which work you want to do for managing Student data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
                         int stuMenuOpt = sc.nextInt();
-                        int hasStu = liststudents.size();
+                        int hasStu = listStudents.size();
 
                         switch (stuMenuOpt) {
                             case 1:
@@ -105,9 +106,9 @@ public class TpDao {
                 case 2:
                     String backCourseMenu = "Y";
                     while ("Y".equals(backCourseMenu)) {
-                        System.out.println("Which work you want to do for managing Student data? 1: Create; 2: Delete; 3: Update; 4: Display");
+                        System.out.println("Which work you want to do for managing Course data? 1: Create; 2: Delete; 3: Update; 4: Display");
                         int courseMenuOpt = sc.nextInt();
-                        int hasCourse = listcourses.size();
+                        int hasCourse = listCourses.size();
 
                         switch (courseMenuOpt) {
                             case 1:
@@ -147,24 +148,24 @@ public class TpDao {
                     }
                     break;
                 case 3:
-                    int stuRecords = liststudents.size();
-                    int courseRecords = listcourses.size();
+                    int stuRecords = listStudents.size();
+                    int courseRecords = listCourses.size();
                     if (stuRecords != 0) {
                         if (courseRecords != 0) {
                             String backResultsMenu = "Y";
                             while ("Y".equals(backResultsMenu)) {
-                                System.out.println("Which work you want to do for managing Student data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
+                                System.out.println("Which work you want to do for managing Results data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
                                 int resultsMenuOpt = sc.nextInt();
 
                                 switch (resultsMenuOpt) {
                                     case 1:
-                                        resultsDao.create(liststudents, listcourses, 0, 0);
+                                        resultsDao.create(listStudents, listCourses, 0, 0);
                                         break;
                                     case 2:
                                         resultsDao.delete(listResults);
                                         break;
                                     case 3:
-                                        resultsDao.update(liststudents, listcourses, 0, 0);
+                                        resultsDao.update(listStudents, listCourses, 0, 0);
                                         break;
                                     case 4:
                                         resultsDao.find(results);
