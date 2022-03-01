@@ -7,3 +7,8 @@ Create student course marks records management projects to practice using ArrayL
 5. And submenuchoose from 1: Create, 2: delete, 3: update, 4: find, 5: display etc options to deal with Student and course, results data.
 6. Back to main menu and submenu;
 7. Check if records is empty then ask to create it.
+
+
+2022.02.28
+1. Fixed results delete method issue: only can delete the first item. By making a new delete item collection solved the problem.
+2. Fixed issue is course delete method loop. 
