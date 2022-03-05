@@ -32,11 +32,11 @@ public class CourseDaoImp implements CourseDao {
     @Override
     public void create(Course course) {
         System.out.println("How many courses you want to create?");
-        int numCreate = sc.nextInt();
+        int numCreate = validateInputaNum();
         int courseNum = 0;
         while (courseNum < numCreate) {
             System.out.println("Course ID: ");
-            int id = sc.nextInt();
+            int id = validateInputaNum();
             System.out.println("Course Name: ");
             String courseName = sc.next();
             course = new Course(id, courseName);
@@ -49,7 +49,7 @@ public class CourseDaoImp implements CourseDao {
     @Override
     public void delete(Course course) {
         System.out.println("Delete Course by Id, please entre Id number: ");
-        int deleteId = sc.nextInt();
+        int deleteId = validateInputaNum();
         for (Course c : listCourses) {
             if (c.getId() == deleteId) {
                 System.out.println("Id: " + c.getId() + "   " + "Name: " + c.getCourseName() + ";  "
@@ -67,12 +67,12 @@ public class CourseDaoImp implements CourseDao {
     @Override
     public void update(Course course) {
         System.out.println("Update course by Id, please entre Id number: ");
-        int updateId = sc.nextInt();
+        int updateId = validateInputaNum();
 
         for (Course c : listCourses) {
             System.out.println("Id: " + c.getId() + "   " + "Name: " + c.getCourseName());
             System.out.println("New Id: ");
-            int id = sc.nextInt();
+            int id = validateInputaNum();
             System.out.println("New Name: ");
             String courseName = sc.next();
 
@@ -92,6 +92,19 @@ public class CourseDaoImp implements CourseDao {
                     + c.getCourseName());
         });
         System.out.println("-------------------------------------------");
+    }
+
+    //Validation checker
+    public int validateInputaNum() {
+        Scanner sc = new Scanner(System.in);
+        int inputNum;
+        try {
+            inputNum = sc.nextInt();
+        } catch (Exception e) {
+            System.out.println("This is not a number, please try again. ");
+            return validateInputaNum ();
+        }
+        return inputNum;
     }
 
 }

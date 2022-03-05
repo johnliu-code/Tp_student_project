@@ -6,6 +6,7 @@
 package TpTaoImp;
 
 import InterfaceDao.StudentDao;
+import Model.Results;
 import Model.Student;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,6 @@ import java.util.Scanner;
  * @author jeanl
  */
 public class StudentDaoImp implements StudentDao {
-
     private final List<Student> listStudents;
     Scanner sc = new Scanner(System.in);
 
@@ -33,12 +33,12 @@ public class StudentDaoImp implements StudentDao {
     public void create(Student student) {
 
         System.out.println("How many students you want to create? ");
-        int numOfCreate = sc.nextInt();
+        int numOfCreate = validateInputaNum();
 
         int studentNum = 0;
         while (studentNum < numOfCreate) {
             System.out.println("Student ID number: ");
-            int id = sc.nextInt();
+            int id = validateInputaNum();
             System.out.println("Student First Name: ");
             String firstname = sc.next();
             System.out.println("Student Last Name: ");
@@ -53,50 +53,83 @@ public class StudentDaoImp implements StudentDao {
     }
 
     @Override
-    public void delete(Student student) {
+    public void delete(Student student, List<Results> listResults) {
         System.out.println("Delete student by id, please entre Id number: ");
-        int byId = sc.nextInt();
-        for (Student s : listStudents) {
-            if (s.getId() == byId) {
-                listStudents.remove(s);
-                break;
+        int byId = validateInputaNum();
+
+        List<Student> studentsToRemove = new ArrayList<>();
+        listStudents.forEach((Student s) -> {
+            int deleteId = s.getId();
+            if (deleteId == byId) {
+                System.out.println("Id = " + deleteId+ ", Would you want to delete the Student with this Id? " + " Y/N ?");
+                String choice = sc.next().toUpperCase();
+                if("Y".equals(choice)) {
+                    studentsToRemove.add(s);
+
+                    //CHeck to delete results with this student
+                    if (!listResults.isEmpty()) {
+                        System.out.println("Are you sure want to delete Student all of the Results? Y/N");
+                        String opt = sc.next().toUpperCase();
+                        if("Y".equals(opt)) {
+                            List<Results> resultsToRemove = new ArrayList<>();
+                            listResults.forEach((Results r) -> {
+                                int studentId = r.getStudent().getId();
+                                if (studentId == byId) {
+                                    resultsToRemove.add(r);
+                                }
+                            });
+                            listResults.removeAll(resultsToRemove);
+                        }
+                    }
+//                    for(Results r: listResults) {
+//                        if (r.getStudent().getId() == byId) {
+//                            System.out.println("Have results with this Id: "+ byId+ ". Delete results by this student too? ");
+//                            String ans = sc.next().toUpperCase();
+//                            while (ans.equals("Y")) {
+//                                listResults.remove(r);
+//                            }
+//                        }
+//                    }
+
+                }
             }
-        }
+        });
+
+        listStudents.removeAll(studentsToRemove);
     }
 
     @Override
     public void update(Student student) {
         System.out.println("Update student by id, please entre Id number: ");
-        int updateId = sc.nextInt();
+        int updateId = validateInputaNum();
 
         for (Student s : listStudents) {
             System.out.println("Id of" + updateId + "   " +  "First Name: " + s.getFirstName() + "   "+ "Last Name: " + s.getLastName() + "   "+ "Gender: " + s.getGender());
             if (s.getId() == updateId) {
                 System.out.println("Update the 1: Id; 2: First Name; 3: Last Name; 4: Gender, your choice number is?");
-                int choice = sc.nextInt();
+                int choice = validateInputaNum();
                 switch (choice) {
-                    case 1:
+                    case 1 -> {
                         System.out.println("Please entre new Id number:");
-                        int newId = sc.nextInt();
+                        int newId = validateInputaNum();
                         s.setId(newId);
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         System.out.println("Please entre new First Name: ");
                         String newFirstName = sc.next();
                         s.setFirstName(newFirstName);
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         System.out.println("Please entre new Last Name: ");
                         String newLastName = sc.next();
                         s.setLastName(newLastName);
-                        break;
-                    case 4:
+                    }
+                    case 4 -> {
                         System.out.println("Please entre new Gender: ");
                         String newGender = sc.next();
                         s.setGender(newGender);
-                        break;
-                    default:
-                        System.out.println("Please entre number 1 to 4");
+                    }
+                    default -> System.out.println("Please entre number 1 to 4");
                 }
             }
         }
@@ -106,23 +139,21 @@ public class StudentDaoImp implements StudentDao {
     public void display(Student student) {
         System.out.println("Students list");
         System.out.println("Id : " + "         " + "First Name : " + "         " + " Last Name : " + "         " + "Gender: ");
-        listStudents.forEach((s) -> {
-            System.out.println(s.getId() + "               "
-                    + s.getFirstName() + "               "
-                    + s.getLastName() + "               "
-                    + s.getGender());
-        });
+        listStudents.forEach((s) -> System.out.println(s.getId() + "               "
+                + s.getFirstName() + "               "
+                + s.getLastName() + "               "
+                + s.getGender()));
         System.out.println("------------------------------------------");
     }
 
     @Override
     public void find(Student student) {
         System.out.println("Find Sudent by 1: Id; 2: First Name; 3 Last Name, please entre your choice number: ");
-        int choice = sc.nextInt();
+        int choice = validateInputaNum();
         switch (choice) {
-            case 1:
+            case 1 -> {
                 System.out.println("Sudent Id number: ");
-                int id = sc.nextInt();
+                int id = validateInputaNum();
                 listStudents.forEach((s) -> {
                     if (s.getId() == id) {
                         System.out.println("Id of: " + id + "     "
@@ -132,8 +163,8 @@ public class StudentDaoImp implements StudentDao {
 
                     }
                 });
-                break;
-            case 2:
+            }
+            case 2 -> {
                 System.out.println("Sudent First Name: ");
                 String firstname = sc.next();
                 listStudents.forEach((s) -> {
@@ -144,8 +175,8 @@ public class StudentDaoImp implements StudentDao {
                                 + "Gender: " + s.getGender());
                     }
                 });
-                break;
-            case 3:
+            }
+            case 3 -> {
                 System.out.println("Sudent Last Name: ");
                 String lastname = sc.next();
                 listStudents.forEach((s) -> {
@@ -156,10 +187,21 @@ public class StudentDaoImp implements StudentDao {
                                 + "Gender: " + s.getGender());
                     }
                 });
-                break;
-            default:
-                System.out.println("Please entre number 1 to 3");
-
+            }
+            default -> System.out.println("Please entre number 1 to 3");
         }
+    }
+
+    //Validation method
+    public int validateInputaNum() {
+        Scanner sc = new Scanner(System.in);
+        int inputNum;
+        try {
+            inputNum = sc.nextInt();
+        } catch (Exception e) {
+            System.out.println("This is not a number, please try again. ");
+            return validateInputaNum ();
+        }
+        return inputNum;
     }
 }

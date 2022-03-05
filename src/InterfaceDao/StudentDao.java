@@ -5,6 +5,8 @@
  */
 package InterfaceDao;
 
+import Model.Course;
+import Model.Results;
 import Model.Student;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  */
 public interface StudentDao {
     void create(Student student);
-    void delete(Student student);
+    void delete(Student student, List<Results> listResults);
     void update(Student student);
     void find(Student student);
     void display(Student student);

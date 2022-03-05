@@ -5,14 +5,11 @@
  */
 package TpTaoImp;
 
-//import InterfaceDao.CourseDao;
 import InterfaceDao.ResultsDao;
-//import InterfaceDao.StudentDao;
 import Model.Course;
 import Model.Results;
 import Model.Student;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,7 +44,7 @@ public class ResultsDaoImp implements ResultsDao {
 
         while ("Y".equals(answer)) {
             System.out.println("Please entre a Student Id to add results: ");
-            int stuId = sc.nextInt();
+            int stuId = validateInputaNum();
             for (Student s : listStudents) {
                 if (s.getId() == stuId) {
                     System.out.println("Sudent Id of " + s.getId() + "  Student is: " + s.getFirstName() + "   " + s.getLastName());
@@ -55,7 +52,7 @@ public class ResultsDaoImp implements ResultsDao {
                     String ans = "Y";
                     while ("Y".equals(ans)) {
                         System.out.println("Please entre a Course Id to add results: ");
-                        int courseId = sc.nextInt();
+                        int courseId = validateInputaNum();
                         for (Course c : listCourses) {
                             if (c.getId() == courseId) {
                                 course = c;
@@ -85,9 +82,9 @@ public class ResultsDaoImp implements ResultsDao {
     @Override
     public void delete(List<Results> listResults) {
         System.out.println("Delete results from which student? Please entre student Id");
-        int deleteStuId = sc.nextInt();
+        int deleteStuId = validateInputaNum();
         System.out.println("Delete results from which course? Please entre course Id");
-        int deleteCourseId = sc.nextInt();
+        int deleteCourseId = validateInputaNum();
 
 //        for (int i = 0; i < listResults.size(); i ++) {
 //            if (listResults.get(i).getStudent().getId() == deleteStuId && listResults.get(i).getCourse().getId() == deleteCourseId) {
@@ -121,13 +118,13 @@ public class ResultsDaoImp implements ResultsDao {
     @Override
     public void update(List<Student> listStudents, List<Course> listCourses, double mark1, double mark2) {
         System.out.println("Update results from which student? Please entre student Id");
-        int deleteStuId = sc.nextInt();
+        int deleteStuId = validateInputaNum();
         System.out.println("Update results from which course? Please entre course Id");
-        int deleteCourseId = sc.nextInt();
+        int deleteCourseId = validateInputaNum();
         for (Results r : listResults) {
             if (r.getStudent().getId() == deleteStuId && r.getCourse().getId() == deleteCourseId) {
                 System.out.println("Which marks you want to update? 1: All; 2: Mark1; 3 Mark2");
-                int option = sc.nextInt();
+                int option = validateInputaNum();
                 switch (option) {
                     case 1:
                         System.out.println("New mark1 value is: ");
@@ -168,19 +165,19 @@ public class ResultsDaoImp implements ResultsDao {
     @Override
     public void find(Results results) {
         System.out.println("Find results by Student 1: Id; 2: First Name and Last Name? please entre your choice number; ");
-        int choice = sc.nextInt();
+        int choice = validateInputaNum();
         switch (choice) {
             case 1:
                 System.out.println("Student Id number: ");
-                int stuId = sc.nextInt();
+                int stuId = validateInputaNum();
                 for (Results r : listResults) {
                     if (r.getStudent().getId() == stuId) {
                         System.out.println("Which Course results you are looking for? Please entre course 1: Id or 2: Name. Your choice number: ");
-                        int choiceNum = sc.nextInt();
+                        int choiceNum = validateInputaNum();
                         switch (choiceNum) {
                             case 1:
                                 System.out.println("Course Id: ");
-                                int findId = sc.nextInt();
+                                int findId = validateInputaNum();
                                 if (r.getCourse().getId() == findId) {
                                     System.out.println("Student: " + r.getStudent().getFirstName() + " " + r.getStudent().getLastName() + "   "
                                             + "Course: " + r.getCourse().getCourseName() + "   "
@@ -217,11 +214,11 @@ public class ResultsDaoImp implements ResultsDao {
                 for (Results r : listResults) {
                     if (r.getStudent().getFirstName().equalsIgnoreCase(stuFirstName) && r.getStudent().getLastName().equalsIgnoreCase(stuLastName)) {
                         System.out.println("Which Course results you are looking for? Please entre course 1: Id or 2: Name. Your choice number: ");
-                        int choiceNum = sc.nextInt();
+                        int choiceNum = validateInputaNum();
                         switch (choiceNum) {
                             case 1:
                                 System.out.println("Course Id: ");
-                                int findId = sc.nextInt();
+                                int findId = validateInputaNum();
                                 if (r.getCourse().getId() == findId) {
                                     System.out.println("Student: " + r.getStudent().getFirstName() + " " + r.getStudent().getLastName() + "   "
                                             + "Course: " + r.getCourse().getCourseName() + "   "
@@ -254,4 +251,18 @@ public class ResultsDaoImp implements ResultsDao {
 
         }
     }
+
+    //Validation method
+    public int validateInputaNum() {
+        Scanner sc = new Scanner(System.in);
+        int inputNum;
+        try {
+            inputNum = sc.nextInt();
+        } catch (Exception e) {
+            System.out.println("This is not a number, please try again. ");
+            return validateInputaNum();
+        }
+        return inputNum;
+    }
+
 }
