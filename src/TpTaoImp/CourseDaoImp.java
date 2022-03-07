@@ -73,11 +73,12 @@ public class CourseDaoImp implements CourseDao {
             System.out.println("Id: " + c.getId() + "   " + "Name: " + c.getCourseName());
             System.out.println("New Id: ");
             int id = validateInputaNum();
+            c.setId(id);
             System.out.println("New Name: ");
             String courseName = sc.next();
+            c.setCourseName(courseName);
 
-            listCourses.set(id, c);
-            System.out.println("Id: " + c.getId() + "   " + c.getCourseName());
+            System.out.println("Id: " + c.getId() + "   Name: " + c.getCourseName());
             break;
         }
     }

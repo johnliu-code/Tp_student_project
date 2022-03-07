@@ -81,16 +81,6 @@ public class StudentDaoImp implements StudentDao {
                             listResults.removeAll(resultsToRemove);
                         }
                     }
-//                    for(Results r: listResults) {
-//                        if (r.getStudent().getId() == byId) {
-//                            System.out.println("Have results with this Id: "+ byId+ ". Delete results by this student too? ");
-//                            String ans = sc.next().toUpperCase();
-//                            while (ans.equals("Y")) {
-//                                listResults.remove(r);
-//                            }
-//                        }
-//                    }
-
                 }
             }
         });
@@ -102,38 +92,44 @@ public class StudentDaoImp implements StudentDao {
     public void update(Student student) {
         System.out.println("Update student by id, please entre Id number: ");
         int updateId = validateInputaNum();
+        for (Student findStu : listStudents) {
+            if (findStu.getId() == updateId) {
+                student =findStu;
+            }
+        }
+        System.out.println("Id of: " + student.getId() + "   "
+                +  "First Name: " + student.getFirstName() + "   "
+                + "Last Name: " + student.getLastName() + "   "
+                + "Gender: " + student.getGender());
 
-        for (Student s : listStudents) {
-            System.out.println("Id of" + updateId + "   " +  "First Name: " + s.getFirstName() + "   "+ "Last Name: " + s.getLastName() + "   "+ "Gender: " + s.getGender());
-            if (s.getId() == updateId) {
-                System.out.println("Update the 1: Id; 2: First Name; 3: Last Name; 4: Gender, your choice number is?");
+        System.out.println("Update the 1: Id; 2: First Name; 3: Last Name; 4: Gender, your choice number is?");
                 int choice = validateInputaNum();
                 switch (choice) {
                     case 1 -> {
                         System.out.println("Please entre new Id number:");
                         int newId = validateInputaNum();
-                        s.setId(newId);
+                        student.setId(newId);
                     }
                     case 2 -> {
                         System.out.println("Please entre new First Name: ");
                         String newFirstName = sc.next();
-                        s.setFirstName(newFirstName);
+                        student.setFirstName(newFirstName);
                     }
                     case 3 -> {
                         System.out.println("Please entre new Last Name: ");
                         String newLastName = sc.next();
-                        s.setLastName(newLastName);
+                        student.setLastName(newLastName);
                     }
                     case 4 -> {
                         System.out.println("Please entre new Gender: ");
                         String newGender = sc.next();
-                        s.setGender(newGender);
+                        student.setGender(newGender);
                     }
                     default -> System.out.println("Please entre number 1 to 4");
                 }
-            }
-        }
     }
+
+
 
     @Override
     public void display(Student student) {

@@ -15,6 +15,9 @@ public class Student {
     private String lastName;
     private String gender;
 
+    public Student() {
+    }
+
     public Student(int id, String firstName, String lastName, String gender) {
         this.id = id;
         this.firstName = firstName;
@@ -53,7 +56,5 @@ public class Student {
     public void setGender(String gender) {
         this.gender = gender;
     }
-    
-            public Student() {
-    }
+
 }
