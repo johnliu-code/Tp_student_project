@@ -12,9 +12,10 @@ import TpTaoImp.StudentDaoImp;
 import java.util.List;
 import java.util.Scanner;
 
-public class TpDaoMethod {
+public class TpMenu {
      //Create main menu with all the object menu method
      Scanner sc = new Scanner(System.in);
+     GlobalMethod tpMethod = new GlobalMethod();
 
     // Student
     StudentDao studentDao = new StudentDaoImp();
@@ -29,12 +30,13 @@ public class TpDaoMethod {
     Results results = new Results();
     List<Results> listResults = resultsDao.findAll();
 
+
     //Main menu
     public void mainMenu() {
         String  backToMain= "Y";
         while ("Y".equals(backToMain)) {
             System.out.println("Which case you want to work for? 1: Student; 2: Course; 3: Results; 4: Quit? Please entre your choice number: ");
-            int choiceMenuNum = validateInputaNum();
+            int choiceMenuNum = tpMethod.validateInputaNum();
             switch (choiceMenuNum) {
                 case 1:
                     stuMenu();
@@ -62,7 +64,7 @@ public class TpDaoMethod {
         String backStuMenu = "Y";
         while (backStuMenu.equals("Y")) {
             System.out.println("Which work you want to do for managing Student data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
-            int stuMenuOpt = validateInputaNum();
+            int stuMenuOpt = tpMethod.validateInputaNum();
             int hasStu = listStudents.size();
 
             switch (stuMenuOpt) {
@@ -117,7 +119,7 @@ public class TpDaoMethod {
         String backCourseMenu = "Y";
         while ("Y".equals(backCourseMenu)) {
             System.out.println("Which work you want to do for managing Course data? 1: Create; 2: Delete; 3: Update; 4: Display");
-            int courseMenuOpt = validateInputaNum();
+            int courseMenuOpt = tpMethod.validateInputaNum();
             int hasCourse = listCourses.size();
 
             switch (courseMenuOpt) {
@@ -168,7 +170,7 @@ public class TpDaoMethod {
                 String backResultsMenu = "Y";
                 while ("Y".equals(backResultsMenu)) {
                     System.out.println("Which work you want to do for managing Results data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
-                    int resultsMenuOpt = validateInputaNum();
+                    int resultsMenuOpt = tpMethod.validateInputaNum();
 
                     switch (resultsMenuOpt) {
                         case 1 -> resultsDao.create(listStudents, listCourses, 0, 0);
@@ -191,17 +193,30 @@ public class TpDaoMethod {
         }
     }
 
-    //Validation checker
-    public int validateInputaNum() {
-        Scanner sc = new Scanner(System.in);
-        int inputNum;
-        try {
-            inputNum = sc.nextInt();
-        } catch (Exception e) {
-            System.out.println("This is not a number, please try again. ");
-            return validateInputaNum ();
-        }
-        return inputNum;
-    }
+//    //Validation checker
+//    public int tpMethod.validateInputaNum() {
+//        Scanner sc = new Scanner(System.in);
+//        int inputNum;
+//        try {
+//            inputNum = sc.nextInt();
+//        } catch (Exception e) {
+//            System.out.println("This is not a number, please try again. ");
+//            return validateInputaNum ();
+//        }
+//        return inputNum;
+//    }
+//
+//    // Validator for double value
+//    public double validateInputDouble() {
+//        Scanner sc = new Scanner(System.in);
+//        double inputDouble;
+//        try {
+//            inputDouble = sc.nextDouble();
+//        } catch (Exception e) {
+//            System.out.println("This is not a double number, please try again. ");
+//            return validateInputDouble();
+//        }
+//        return inputDouble;
+//    }
 
 }

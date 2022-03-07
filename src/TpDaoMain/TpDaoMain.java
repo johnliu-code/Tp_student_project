@@ -9,14 +9,14 @@ package TpDaoMain;
  *
  * @author jeanl
  */
-public class TpDao {
+public class TpDaoMain {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // Call menu form menu class
-        TpDaoMethod menu = new TpDaoMethod();
+        TpMenu menu = new TpMenu();
         menu.mainMenu();
 
    }

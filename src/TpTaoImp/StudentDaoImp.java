@@ -8,6 +8,8 @@ package TpTaoImp;
 import InterfaceDao.StudentDao;
 import Model.Results;
 import Model.Student;
+import TpDaoMain.GlobalMethod;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,6 +21,7 @@ import java.util.Scanner;
 public class StudentDaoImp implements StudentDao {
     private final List<Student> listStudents;
     Scanner sc = new Scanner(System.in);
+    GlobalMethod tpMethod = new GlobalMethod();
 
     public StudentDaoImp() {
         listStudents = new ArrayList<>();
@@ -33,12 +36,12 @@ public class StudentDaoImp implements StudentDao {
     public void create(Student student) {
 
         System.out.println("How many students you want to create? ");
-        int numOfCreate = validateInputaNum();
+        int numOfCreate = tpMethod.validateInputaNum();
 
         int studentNum = 0;
         while (studentNum < numOfCreate) {
             System.out.println("Student ID number: ");
-            int id = validateInputaNum();
+            int id = tpMethod.validateInputaNum();
             System.out.println("Student First Name: ");
             String firstname = sc.next();
             System.out.println("Student Last Name: ");
@@ -55,7 +58,7 @@ public class StudentDaoImp implements StudentDao {
     @Override
     public void delete(Student student, List<Results> listResults) {
         System.out.println("Delete student by id, please entre Id number: ");
-        int byId = validateInputaNum();
+        int byId = tpMethod.validateInputaNum();
 
         List<Student> studentsToRemove = new ArrayList<>();
         listStudents.forEach((Student s) -> {
@@ -91,23 +94,20 @@ public class StudentDaoImp implements StudentDao {
     @Override
     public void update(Student student) {
         System.out.println("Update student by id, please entre Id number: ");
-        int updateId = validateInputaNum();
+        int updateId = tpMethod.validateInputaNum();
         for (Student findStu : listStudents) {
             if (findStu.getId() == updateId) {
                 student =findStu;
             }
         }
-        System.out.println("Id of: " + student.getId() + "   "
-                +  "First Name: " + student.getFirstName() + "   "
-                + "Last Name: " + student.getLastName() + "   "
-                + "Gender: " + student.getGender());
+        printStu(student);
 
         System.out.println("Update the 1: Id; 2: First Name; 3: Last Name; 4: Gender, your choice number is?");
-                int choice = validateInputaNum();
+                int choice = tpMethod.validateInputaNum();
                 switch (choice) {
                     case 1 -> {
                         System.out.println("Please entre new Id number:");
-                        int newId = validateInputaNum();
+                        int newId = tpMethod.validateInputaNum();
                         student.setId(newId);
                     }
                     case 2 -> {
@@ -134,29 +134,21 @@ public class StudentDaoImp implements StudentDao {
     @Override
     public void display(Student student) {
         System.out.println("Students list");
-        System.out.println("Id : " + "         " + "First Name : " + "         " + " Last Name : " + "         " + "Gender: ");
-        listStudents.forEach((s) -> System.out.println(s.getId() + "               "
-                + s.getFirstName() + "               "
-                + s.getLastName() + "               "
-                + s.getGender()));
+        listStudents.forEach(this::printStu);
         System.out.println("------------------------------------------");
     }
 
     @Override
     public void find(Student student) {
         System.out.println("Find Sudent by 1: Id; 2: First Name; 3 Last Name, please entre your choice number: ");
-        int choice = validateInputaNum();
+        int choice = tpMethod.validateInputaNum();
         switch (choice) {
             case 1 -> {
                 System.out.println("Sudent Id number: ");
-                int id = validateInputaNum();
+                int id = tpMethod.validateInputaNum();
                 listStudents.forEach((s) -> {
                     if (s.getId() == id) {
-                        System.out.println("Id of: " + id + "     "
-                                + "First Name: " + s.getFirstName() + "     "
-                                + "Last Name:  " + s.getLastName() + "    "
-                                + "Gender: " + s.getGender());
-
+                        printStu(s);
                     }
                 });
             }
@@ -165,10 +157,7 @@ public class StudentDaoImp implements StudentDao {
                 String firstname = sc.next();
                 listStudents.forEach((s) -> {
                     if (s.getFirstName().equals(firstname)) {
-                        System.out.println("Id " + s.getId() + "   "
-                                + "First Name of: " + firstname + "   "
-                                + "Last Name: " + s.getLastName() + "   "
-                                + "Gender: " + s.getGender());
+                        printStu(s);
                     }
                 });
             }
@@ -177,10 +166,7 @@ public class StudentDaoImp implements StudentDao {
                 String lastname = sc.next();
                 listStudents.forEach((s) -> {
                     if (s.getLastName().equals(lastname)) {
-                        System.out.println("Id: " + s.getId() + "   "
-                                + "First Name: " + s.getFirstName() + "   "
-                                + "Last Name of: " + s.getLastName() + "   "
-                                + "Gender: " + s.getGender());
+                        printStu(s);
                     }
                 });
             }
@@ -188,16 +174,13 @@ public class StudentDaoImp implements StudentDao {
         }
     }
 
-    //Validation method
-    public int validateInputaNum() {
-        Scanner sc = new Scanner(System.in);
-        int inputNum;
-        try {
-            inputNum = sc.nextInt();
-        } catch (Exception e) {
-            System.out.println("This is not a number, please try again. ");
-            return validateInputaNum ();
-        }
-        return inputNum;
+    //Methods for reusing
+    // Print students
+    private void printStu(Student student) {
+        System.out.println("Id: " + student.getId() + "   "
+                + "First Name: " + student.getFirstName() + "   "
+                + "Last Name: " + student.getLastName() + "   "
+                + "Gender: " + student.getGender());
     }
+
 }

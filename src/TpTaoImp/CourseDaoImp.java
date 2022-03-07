@@ -7,6 +7,8 @@ package TpTaoImp;
 
 import InterfaceDao.CourseDao;
 import Model.Course;
+import TpDaoMain.GlobalMethod;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,6 +21,7 @@ public class CourseDaoImp implements CourseDao {
 
     private final List<Course> listCourses;
     Scanner sc = new Scanner(System.in);
+    GlobalMethod tpMethod = new GlobalMethod();
 
     public CourseDaoImp() {
         listCourses = new ArrayList<>();
@@ -32,11 +35,11 @@ public class CourseDaoImp implements CourseDao {
     @Override
     public void create(Course course) {
         System.out.println("How many courses you want to create?");
-        int numCreate = validateInputaNum();
+        int numCreate = tpMethod.validateInputaNum();
         int courseNum = 0;
         while (courseNum < numCreate) {
             System.out.println("Course ID: ");
-            int id = validateInputaNum();
+            int id = tpMethod.validateInputaNum();
             System.out.println("Course Name: ");
             String courseName = sc.next();
             course = new Course(id, courseName);
@@ -49,7 +52,7 @@ public class CourseDaoImp implements CourseDao {
     @Override
     public void delete(Course course) {
         System.out.println("Delete Course by Id, please entre Id number: ");
-        int deleteId = validateInputaNum();
+        int deleteId = tpMethod.validateInputaNum();
         for (Course c : listCourses) {
             if (c.getId() == deleteId) {
                 System.out.println("Id: " + c.getId() + "   " + "Name: " + c.getCourseName() + ";  "
@@ -67,18 +70,21 @@ public class CourseDaoImp implements CourseDao {
     @Override
     public void update(Course course) {
         System.out.println("Update course by Id, please entre Id number: ");
-        int updateId = validateInputaNum();
+        int updateId = tpMethod.validateInputaNum();
 
         for (Course c : listCourses) {
-            System.out.println("Id: " + c.getId() + "   " + "Name: " + c.getCourseName());
-            System.out.println("New Id: ");
-            int id = validateInputaNum();
-            c.setId(id);
-            System.out.println("New Name: ");
-            String courseName = sc.next();
-            c.setCourseName(courseName);
+            if (c.getId() == updateId) {
+                System.out.println("Id: " + c.getId() + "   " + "Name: " + c.getCourseName());
+                System.out.println("New Id: ");
+                int id = tpMethod.validateInputaNum();
+                c.setId(id);
+                System.out.println("New Name: ");
+                String courseName = sc.next();
+                c.setCourseName(courseName);
 
-            System.out.println("Id: " + c.getId() + "   Name: " + c.getCourseName());
+                System.out.println("Id: " + c.getId() + "   Name: " + c.getCourseName());
+            }
+
             break;
         }
     }
@@ -88,24 +94,9 @@ public class CourseDaoImp implements CourseDao {
         System.out.println("Cours list");
         System.out.println(" ID : " + "         " + " Cours Name : ");
 
-        listCourses.forEach((c) -> {
-            System.out.println(c.getId() + "              "
-                    + c.getCourseName());
-        });
+        listCourses.forEach((c) -> System.out.println(c.getId() + "              "
+                + c.getCourseName()));
         System.out.println("-------------------------------------------");
-    }
-
-    //Validation checker
-    public int validateInputaNum() {
-        Scanner sc = new Scanner(System.in);
-        int inputNum;
-        try {
-            inputNum = sc.nextInt();
-        } catch (Exception e) {
-            System.out.println("This is not a number, please try again. ");
-            return validateInputaNum ();
-        }
-        return inputNum;
     }
 
 }

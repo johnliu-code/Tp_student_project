@@ -9,6 +9,8 @@ import InterfaceDao.ResultsDao;
 import Model.Course;
 import Model.Results;
 import Model.Student;
+import TpDaoMain.GlobalMethod;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -21,6 +23,7 @@ public class ResultsDaoImp implements ResultsDao {
 
     Scanner sc = new Scanner(System.in);
     private final List<Results> listResults;
+    GlobalMethod tpMethod = new GlobalMethod();
 
     Results results = new Results();
     Student student = new Student();
@@ -41,7 +44,7 @@ public class ResultsDaoImp implements ResultsDao {
 
         while ("Y".equals(answer)) {
             System.out.println("Please entre a Student Id to add results: ");
-            int stuId = validateInputNum();
+            int stuId = tpMethod.validateInputaNum();
             for (Student s : listStudents) {
                 if (s.getId() == stuId) {
                     System.out.println("Sudent Id of " + s.getId() + "  Student is: " + s.getFirstName() + "   " + s.getLastName());
@@ -49,15 +52,15 @@ public class ResultsDaoImp implements ResultsDao {
                     String ans = "Y";
                     while ("Y".equals(ans)) {
                         System.out.println("Please entre a Course Id to add results: ");
-                        int courseId = validateInputNum();
+                        int courseId = tpMethod.validateInputaNum();
                         for (Course c : listCourses) {
                             if (c.getId() == courseId) {
                                 course = c;
                                 System.out.println("Course Id of " + c.getId() + " " + "is: " + course.getCourseName());
                                 System.out.println("Please entre Mark1 for Cours: " + course.getCourseName());
-                                mark1 = validateInputDouble();
+                                mark1 = tpMethod.validateInputDouble();
                                 System.out.println("Please entre Mark2 for Cours: " + course.getCourseName());
-                                mark2 = validateInputDouble();
+                                mark2 = tpMethod.validateInputDouble();
 
                                 results = new Results(student, course, mark1, mark2);
                                 listResults.add(results);
@@ -79,9 +82,9 @@ public class ResultsDaoImp implements ResultsDao {
     @Override
     public void delete(List<Results> listResults) {
         System.out.println("Delete results from which student? Please entre student Id");
-        int deleteStuId = validateInputNum();
+        int deleteStuId = tpMethod.validateInputaNum();
         System.out.println("Delete results from which course? Please entre course Id");
-        int deleteCourseId = validateInputNum();
+        int deleteCourseId = tpMethod.validateInputaNum();
 
         List<Results> resultsToRemove = new ArrayList<>();
         listResults.forEach((Results r) -> {
@@ -103,30 +106,30 @@ public class ResultsDaoImp implements ResultsDao {
     @Override
     public void update(List<Student> listStudents, List<Course> listCourses, double mark1, double mark2) {
         System.out.println("Update results from which student? Please entre student Id");
-        int deleteStuId = validateInputNum();
+        int deleteStuId = tpMethod.validateInputaNum();
         System.out.println("Update results from which course? Please entre course Id");
-        int deleteCourseId = validateInputNum();
+        int deleteCourseId = tpMethod.validateInputaNum();
         for (Results r : listResults) {
             if (r.getStudent().getId() == deleteStuId && r.getCourse().getId() == deleteCourseId) {
                 System.out.println("Which marks you want to update? 1: All; 2: Mark1; 3 Mark2");
-                int option = validateInputNum();
+                int option = tpMethod.validateInputaNum();
                 switch (option) {
                     case 1 -> {
                         System.out.println("New mark1 value is: ");
-                        double newMark1 = validateInputDouble();
+                        double newMark1 = tpMethod.validateInputDouble();
                         r.setMark1(newMark1);
                         System.out.println("New mark2 value is: ");
-                        double newMark2 = validateInputDouble();
+                        double newMark2 = tpMethod.validateInputDouble();
                         r.setMark2(newMark2);
                     }
                     case 2 -> {
                         System.out.println("New mark1 value is: ");
-                        double mark1New = validateInputDouble();
+                        double mark1New = tpMethod.validateInputDouble();
                         r.setMark1(mark1New);
                     }
                     case 3 -> {
                         System.out.println("New mark2 value is: ");
-                        double mark2New = validateInputDouble();
+                        double mark2New = tpMethod.validateInputDouble();
                         r.setMark2(mark2New);
                     }
                     default -> System.out.println("Please entre your choice number 1 to 3");
@@ -137,33 +140,27 @@ public class ResultsDaoImp implements ResultsDao {
 
     @Override
     public void display(List<Results> listResults) {
-        listResults.forEach((r) -> System.out.println("Student Name: " + r.getStudent().getFirstName() + " " + r.getStudent().getLastName() + "   "
-                + "Course Name: " + r.getCourse().getCourseName() + "   "
-                + "Mark1: " + r.getMark1() + "   "
-                + "Mark2: " + r.getMark2()));
+        listResults.forEach((r) -> printResults(r));
     }
 
     @Override
     public void find(Results results) {
         System.out.println("Find results by Student 1: Id; 2: First Name and Last Name? please entre your choice number; ");
-        int choice = validateInputNum();
+        int choice = tpMethod.validateInputaNum();
         switch (choice) {
             case 1 -> {
                 System.out.println("Student Id number: ");
-                int stuId = validateInputNum();
+                int stuId = tpMethod.validateInputaNum();
                 for (Results r : listResults) {
                     if (r.getStudent().getId() == stuId) {
                         System.out.println("Which Course results you are looking for? Please entre course 1: Id or 2: Name. Your choice number: ");
-                        int choiceNum = validateInputNum();
+                        int choiceNum = tpMethod.validateInputaNum();
                         switch (choiceNum) {
                             case 1 -> {
                                 System.out.println("Course Id: ");
-                                int findId = validateInputNum();
+                                int findId = tpMethod.validateInputaNum();
                                 if (r.getCourse().getId() == findId) {
-                                    System.out.println("Student: " + r.getStudent().getFirstName() + " " + r.getStudent().getLastName() + "   "
-                                            + "Course: " + r.getCourse().getCourseName() + "   "
-                                            + "Mark1: " + r.getMark1() + "   "
-                                            + "Mark2: " + r.getMark2());
+                                    printResults(r);
                                 } else {
                                     System.out.println("Didn't find Cours results of Id: " + findId + " Please try again later");
                                 }
@@ -172,10 +169,7 @@ public class ResultsDaoImp implements ResultsDao {
                                 System.out.println("Course Name: ");
                                 String findCourseName = sc.next();
                                 if (r.getCourse().getCourseName().equalsIgnoreCase(findCourseName)) {
-                                    System.out.println("Student: " + r.getStudent().getFirstName() + " " + r.getStudent().getLastName() + "   "
-                                            + "Course: " + r.getCourse().getCourseName() + "   "
-                                            + "Mark1: " + r.getMark1() + "   "
-                                            + "Mark2: " + r.getMark2());
+                                    printResults(r);
                                 } else {
                                     System.out.println("Didn't find Cours results of Name: " + findCourseName + " Please try again later");
                                 }
@@ -193,16 +187,13 @@ public class ResultsDaoImp implements ResultsDao {
                 for (Results r : listResults) {
                     if (r.getStudent().getFirstName().equalsIgnoreCase(stuFirstName) && r.getStudent().getLastName().equalsIgnoreCase(stuLastName)) {
                         System.out.println("Which Course results you are looking for? Please entre course 1: Id or 2: Name. Your choice number: ");
-                        int choiceNum = validateInputNum();
+                        int choiceNum = tpMethod.validateInputaNum();
                         switch (choiceNum) {
                             case 1 -> {
                                 System.out.println("Course Id: ");
-                                int findId = validateInputNum();
+                                int findId = tpMethod.validateInputaNum();
                                 if (r.getCourse().getId() == findId) {
-                                    System.out.println("Student: " + r.getStudent().getFirstName() + " " + r.getStudent().getLastName() + "   "
-                                            + "Course: " + r.getCourse().getCourseName() + "   "
-                                            + "Mark1: " + r.getMark1() + "   "
-                                            + "Mark2: " + r.getMark2());
+                                    printResults(r);
                                 } else {
                                     System.out.println("Didn't find Cours results of Id: " + findId + " Please try again later");
                                 }
@@ -211,10 +202,7 @@ public class ResultsDaoImp implements ResultsDao {
                                 System.out.println("Course Name: ");
                                 String findCourseName = sc.next();
                                 if (r.getCourse().getCourseName().equalsIgnoreCase(findCourseName)) {
-                                    System.out.println("Student: " + r.getStudent().getFirstName() + " " + r.getStudent().getLastName() + "   "
-                                            + "Course: " + r.getCourse().getCourseName() + "   "
-                                            + "Mark1: " + r.getMark1() + "   "
-                                            + "Mark2: " + r.getMark2());
+                                    printResults(r);
                                 } else {
                                     System.out.println("Didn't find Cours results of Name: " + findCourseName + " Please try again later");
                                 }
@@ -229,29 +217,13 @@ public class ResultsDaoImp implements ResultsDao {
         }
     }
 
-    //Validation method
-    public int validateInputNum() {
-        Scanner sc = new Scanner(System.in);
-        int inputNum;
-        try {
-            inputNum = sc.nextInt();
-        } catch (Exception e) {
-            System.out.println("This is not a number, please try again. ");
-            return validateInputNum();
-        }
-        return inputNum;
-    }
-
-    public double validateInputDouble() {
-        Scanner sc = new Scanner(System.in);
-        double inputDouble;
-        try {
-            inputDouble = sc.nextDouble();
-        } catch (Exception e) {
-            System.out.println("This is not a double number, please try again. ");
-            return validateInputDouble();
-        }
-        return inputDouble;
+    //Methods for reusing
+    //Print results
+    private void printResults (Results results) {
+        System.out.println("Student: " + results.getStudent().getFirstName() + " " + results.getStudent().getLastName() + "   "
+                + "Course: " + results.getCourse().getCourseName() + "   "
+                + "Mark1: " + results.getMark1() + "   "
+                + "Mark2: " + results.getMark2());
     }
 
 }
