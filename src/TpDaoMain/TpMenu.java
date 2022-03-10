@@ -35,7 +35,7 @@ public class TpMenu {
     public void mainMenu() {
         String  backToMain= "Y";
         while ("Y".equals(backToMain)) {
-            System.out.println("Which case you want to work for? 1: Student; 2: Course; 3: Results; 4: Quit? Please entre your choice number: ");
+            System.out.println("Please entre a Number of menu options which you want to work with? 1: Student; 2: Course; 3: Results; 4: Quit? Please entre your choice number: ");
             int choiceMenuNum = tpMethod.validateInputaNum();
             switch (choiceMenuNum) {
                 case 1:
@@ -45,7 +45,7 @@ public class TpMenu {
                     courseMenu();
                     break;
                 case 3:
-                    rsultsMenu();
+                    resultsMenu();
                     break;
                 case 4:
                     break;
@@ -63,7 +63,7 @@ public class TpMenu {
     public void stuMenu() {
         String backStuMenu = "Y";
         while (backStuMenu.equals("Y")) {
-            System.out.println("Which work you want to do for managing Student data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
+            System.out.println("Please entre a Number of your choice for Student data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
             int stuMenuOpt = tpMethod.validateInputaNum();
             int hasStu = listStudents.size();
 
@@ -162,14 +162,14 @@ public class TpMenu {
     }
 
     // Results menu
-    public void rsultsMenu() {
+    public void resultsMenu() {
         int stuRecords = listStudents.size();
         int courseRecords = listCourses.size();
         if (stuRecords != 0) {
             if (courseRecords != 0) {
                 String backResultsMenu = "Y";
                 while ("Y".equals(backResultsMenu)) {
-                    System.out.println("Which work you want to do for managing Results data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
+                    System.out.println("Please entre a Number of your choice for Results data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
                     int resultsMenuOpt = tpMethod.validateInputaNum();
 
                     switch (resultsMenuOpt) {
@@ -192,31 +192,5 @@ public class TpMenu {
             System.out.println("There is no records for Students, please create Student records first!");
         }
     }
-
-//    //Validation checker
-//    public int tpMethod.validateInputaNum() {
-//        Scanner sc = new Scanner(System.in);
-//        int inputNum;
-//        try {
-//            inputNum = sc.nextInt();
-//        } catch (Exception e) {
-//            System.out.println("This is not a number, please try again. ");
-//            return validateInputaNum ();
-//        }
-//        return inputNum;
-//    }
-//
-//    // Validator for double value
-//    public double validateInputDouble() {
-//        Scanner sc = new Scanner(System.in);
-//        double inputDouble;
-//        try {
-//            inputDouble = sc.nextDouble();
-//        } catch (Exception e) {
-//            System.out.println("This is not a double number, please try again. ");
-//            return validateInputDouble();
-//        }
-//        return inputDouble;
-//    }
 
 }
