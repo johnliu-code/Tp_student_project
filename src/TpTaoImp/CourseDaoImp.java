@@ -10,6 +10,7 @@ import Model.Course;
 import TpDaoMain.GlobalMethod;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,11 +36,11 @@ public class CourseDaoImp implements CourseDao {
     @Override
     public void create(Course course) {
         System.out.println("How many courses you want to create?");
-        int numCreate = tpMethod.validateInputaNum();
+        int numCreate = tpMethod.validateInputInt();
         int courseNum = 0;
         while (courseNum < numCreate) {
             System.out.println("Course ID: ");
-            int id = tpMethod.validateInputaNum();
+            int id = tpMethod.validateInputInt();
             System.out.println("Course Name: ");
             String courseName = sc.next();
             course = new Course(id, courseName);
@@ -51,41 +52,30 @@ public class CourseDaoImp implements CourseDao {
 
     @Override
     public void delete(Course course) {
-        System.out.println("Delete Course by Id, please entre Id number: ");
-        int deleteId = tpMethod.validateInputaNum();
-        for (Course c : listCourses) {
-            if (c.getId() == deleteId) {
-                System.out.println("Id: " + c.getId() + "   " + "Name: " + c.getCourseName() + ";  "
-                        + "Make sure you want to delete it? Y/N ?");
-                String answer = sc.next().toUpperCase();
-                if ("Y".equals(answer)) {
-                    listCourses.remove(c);
-                } else {
-                    break;
-                }
-            }
-        }
+      //   Use iterator to delete
+        Iterator<Course> itr = this.findCourse(course);
+        System.out.println("Are you sure want to delete this course?  Y/N?");
+        String answer = sc.next().toUpperCase();
+        if (answer=="Y");
+        itr.remove();
     }
 
     @Override
     public void update(Course course) {
-        System.out.println("Update course by Id, please entre Id number: ");
-        int updateId = tpMethod.validateInputaNum();
-
-        for (Course c : listCourses) {
+        System.out.println("Update course Id number is: ");
+        int updateId = tpMethod.validateInputInt();
+        boolean findId = false;
+        for (Course c: listCourses) {
             if (c.getId() == updateId) {
-                System.out.println("Id: " + c.getId() + "   " + "Name: " + c.getCourseName());
+                findId = true;
                 System.out.println("New Id: ");
-                int id = tpMethod.validateInputaNum();
-                c.setId(id);
+                c.setId(tpMethod.validateInputInt());
                 System.out.println("New Name: ");
-                String courseName = sc.next();
-                c.setCourseName(courseName);
-
-                System.out.println("Id: " + c.getId() + "   Name: " + c.getCourseName());
+                c.setCourseName(sc.next());
             }
-
-            break;
+        }
+        if (!findId){
+            System.out.println("The course Id is not exist!");
         }
     }
 
@@ -97,6 +87,25 @@ public class CourseDaoImp implements CourseDao {
         listCourses.forEach((c) -> System.out.println(c.getId() + "              "
                 + c.getCourseName()));
         System.out.println("-------------------------------------------");
+    }
+
+
+    public Iterator<Course> findCourse(Course course) {
+        Iterator<Course> itr = listCourses.iterator();
+        System.out.println("Please entre course Id Number you are looking for: ");
+        int findById = tpMethod.validateInputInt();
+        boolean hasId = false;
+        while (itr.hasNext()){
+           course = itr.next();
+            if (course.getId()==findById ) {
+                hasId = true;
+                System.out.println("Find course with Id: " + course.getId() + ", Name: " + course.getCourseName());
+            }
+        }
+        if (!hasId) {
+            System.out.println("The Id number is not exist!");
+        }
+        return itr;
     }
 
 }

@@ -35,8 +35,8 @@ public class TpMenu {
     public void mainMenu() {
         String  backToMain= "Y";
         while ("Y".equals(backToMain)) {
-            System.out.println("Please entre a Number of menu options which you want to work with? 1: Student; 2: Course; 3: Results; 4: Quit? Please entre your choice number: ");
-            int choiceMenuNum = tpMethod.validateInputaNum();
+            System.out.println("Please entre a Number of menu options which you want to work with? 1: Student; 2: Course; 3: Results; 4: Quit?");
+            int choiceMenuNum = tpMethod.validateInputInt();
             switch (choiceMenuNum) {
                 case 1:
                     stuMenu();
@@ -64,7 +64,7 @@ public class TpMenu {
         String backStuMenu = "Y";
         while (backStuMenu.equals("Y")) {
             System.out.println("Please entre a Number of your choice for Student data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
-            int stuMenuOpt = tpMethod.validateInputaNum();
+            int stuMenuOpt = tpMethod.validateInputInt();
             int hasStu = listStudents.size();
 
             switch (stuMenuOpt) {
@@ -118,8 +118,8 @@ public class TpMenu {
     public void courseMenu() {
         String backCourseMenu = "Y";
         while ("Y".equals(backCourseMenu)) {
-            System.out.println("Which work you want to do for managing Course data? 1: Create; 2: Delete; 3: Update; 4: Display");
-            int courseMenuOpt = tpMethod.validateInputaNum();
+            System.out.println("Which work you want to do for managing Course data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
+            int courseMenuOpt = tpMethod.validateInputInt();
             int hasCourse = listCourses.size();
 
             switch (courseMenuOpt) {
@@ -144,6 +144,14 @@ public class TpMenu {
                     }
                     break;
                 case 4:
+                    if (hasCourse != 0) {
+                        courseDao.findCourse(course);
+                    } else {
+                        System.out.println("Please create Course records first!");
+                        break;
+                    }
+                    break;
+                case 5:
                     if (hasCourse != 0) {
                         courseDao.display(course);
                     } else {
@@ -170,7 +178,7 @@ public class TpMenu {
                 String backResultsMenu = "Y";
                 while ("Y".equals(backResultsMenu)) {
                     System.out.println("Please entre a Number of your choice for Results data? 1: Create; 2: Delete; 3: Update; 4: Find; 5: Display");
-                    int resultsMenuOpt = tpMethod.validateInputaNum();
+                    int resultsMenuOpt = tpMethod.validateInputInt();
 
                     switch (resultsMenuOpt) {
                         case 1 -> resultsDao.create(listStudents, listCourses, 0, 0);

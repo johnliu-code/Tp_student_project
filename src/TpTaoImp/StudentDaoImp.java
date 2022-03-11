@@ -36,12 +36,12 @@ public class StudentDaoImp implements StudentDao {
     public void create(Student student) {
 
         System.out.println("How many students you want to create? ");
-        int numOfCreate = tpMethod.validateInputaNum();
+        int numOfCreate = tpMethod.validateInputInt();
 
         int studentNum = 0;
         while (studentNum < numOfCreate) {
             System.out.println("Student ID number: ");
-            int id = tpMethod.validateInputaNum();
+            int id = tpMethod.validateInputInt();
             System.out.println("Student First Name: ");
             String firstname = sc.next();
             System.out.println("Student Last Name: ");
@@ -58,7 +58,7 @@ public class StudentDaoImp implements StudentDao {
     @Override
     public void delete(Student student, List<Results> listResults) {
         System.out.println("Delete student by id, please entre Id number: ");
-        int byId = tpMethod.validateInputaNum();
+        int byId = tpMethod.validateInputInt();
 
         List<Student> studentsToRemove = new ArrayList<>();
         listStudents.forEach((Student s) -> {
@@ -71,7 +71,7 @@ public class StudentDaoImp implements StudentDao {
 
                     //CHeck to delete results with this student
                     if (!listResults.isEmpty()) {
-                        System.out.println("Are you sure want to delete Student all of the Results? Y/N");
+                        System.out.println("Are you sure want to delete Student all of the Results too? Y/N");
                         String opt = sc.next().toUpperCase();
                         if("Y".equals(opt)) {
                             List<Results> resultsToRemove = new ArrayList<>();
@@ -94,7 +94,7 @@ public class StudentDaoImp implements StudentDao {
     @Override
     public void update(Student student) {
         System.out.println("Update student by id, please entre Id number: ");
-        int updateId = tpMethod.validateInputaNum();
+        int updateId = tpMethod.validateInputInt();
         for (Student findStu : listStudents) {
             if (findStu.getId() == updateId) {
                 student =findStu;
@@ -103,11 +103,11 @@ public class StudentDaoImp implements StudentDao {
         printStu(student);
 
         System.out.println("Update the 1: Id; 2: First Name; 3: Last Name; 4: Gender, your choice number is?");
-                int choice = tpMethod.validateInputaNum();
+                int choice = tpMethod.validateInputInt();
                 switch (choice) {
                     case 1 -> {
                         System.out.println("Please entre new Id number:");
-                        int newId = tpMethod.validateInputaNum();
+                        int newId = tpMethod.validateInputInt();
                         student.setId(newId);
                     }
                     case 2 -> {
@@ -141,11 +141,11 @@ public class StudentDaoImp implements StudentDao {
     @Override
     public void find(Student student) {
         System.out.println("Find Sudent by 1: Id; 2: First Name; 3 Last Name, please entre your choice number: ");
-        int choice = tpMethod.validateInputaNum();
+        int choice = tpMethod.validateInputInt();
         switch (choice) {
             case 1 -> {
                 System.out.println("Sudent Id number: ");
-                int id = tpMethod.validateInputaNum();
+                int id = tpMethod.validateInputInt();
                 listStudents.forEach((s) -> {
                     if (s.getId() == id) {
                         printStu(s);

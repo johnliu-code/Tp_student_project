@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class GlobalMethod {
 
     //Validation checker
-    public int validateInputaNum() {
+    public int validateInputInt() {
         Scanner sc = new Scanner(System.in);
         int inputInt;
         try {
             inputInt = sc.nextInt();
         } catch (Exception e) {
             System.out.println("This is not a number, please try again. ");
-            return validateInputaNum ();
+            return validateInputInt();
         }
         return inputInt;
     }

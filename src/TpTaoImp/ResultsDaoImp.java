@@ -44,7 +44,7 @@ public class ResultsDaoImp implements ResultsDao {
 
         while ("Y".equals(answer)) {
             System.out.println("Please entre a Student Id to add results: ");
-            int stuId = tpMethod.validateInputaNum();
+            int stuId = tpMethod.validateInputInt();
             for (Student s : listStudents) {
                 if (s.getId() == stuId) {
                     System.out.println("Sudent Id of " + s.getId() + "  Student is: " + s.getFirstName() + "   " + s.getLastName());
@@ -52,7 +52,7 @@ public class ResultsDaoImp implements ResultsDao {
                     String ans = "Y";
                     while ("Y".equals(ans)) {
                         System.out.println("Please entre a Course Id to add results: ");
-                        int courseId = tpMethod.validateInputaNum();
+                        int courseId = tpMethod.validateInputInt();
                         for (Course c : listCourses) {
                             if (c.getId() == courseId) {
                                 course = c;
@@ -67,12 +67,16 @@ public class ResultsDaoImp implements ResultsDao {
 
                                 System.out.println("Continue to add Results to another Course? Y/N");
                                 ans = sc.next().toUpperCase();
+                            } else {
+                                System.out.println("The course Id you entred is not exsit!");
                             }
 
                         }
                     }
                     System.out.println("Continue to add Results to another Student? Y/N");
                     answer = sc.next().toUpperCase();
+                } else {
+                    System.out.println("The student Id is not exist!");
                 }
             }
         }
@@ -82,9 +86,9 @@ public class ResultsDaoImp implements ResultsDao {
     @Override
     public void delete(List<Results> listResults) {
         System.out.println("Delete results from which student? Please entre student Id");
-        int deleteStuId = tpMethod.validateInputaNum();
+        int deleteStuId = tpMethod.validateInputInt();
         System.out.println("Delete results from which course? Please entre course Id");
-        int deleteCourseId = tpMethod.validateInputaNum();
+        int deleteCourseId = tpMethod.validateInputInt();
 
         List<Results> resultsToRemove = new ArrayList<>();
         listResults.forEach((Results r) -> {
@@ -106,13 +110,13 @@ public class ResultsDaoImp implements ResultsDao {
     @Override
     public void update(List<Student> listStudents, List<Course> listCourses, double mark1, double mark2) {
         System.out.println("Update results from which student? Please entre student Id");
-        int deleteStuId = tpMethod.validateInputaNum();
+        int deleteStuId = tpMethod.validateInputInt();
         System.out.println("Update results from which course? Please entre course Id");
-        int deleteCourseId = tpMethod.validateInputaNum();
+        int deleteCourseId = tpMethod.validateInputInt();
         for (Results r : listResults) {
             if (r.getStudent().getId() == deleteStuId && r.getCourse().getId() == deleteCourseId) {
                 System.out.println("Which marks you want to update? 1: All; 2: Mark1; 3 Mark2");
-                int option = tpMethod.validateInputaNum();
+                int option = tpMethod.validateInputInt();
                 switch (option) {
                     case 1 -> {
                         System.out.println("New mark1 value is: ");
@@ -146,19 +150,19 @@ public class ResultsDaoImp implements ResultsDao {
     @Override
     public void find(Results results) {
         System.out.println("Find results by Student 1: Id; 2: First Name and Last Name? please entre your choice number; ");
-        int choice = tpMethod.validateInputaNum();
+        int choice = tpMethod.validateInputInt();
         switch (choice) {
             case 1 -> {
                 System.out.println("Student Id number: ");
-                int stuId = tpMethod.validateInputaNum();
+                int stuId = tpMethod.validateInputInt();
                 for (Results r : listResults) {
                     if (r.getStudent().getId() == stuId) {
                         System.out.println("Which Course results you are looking for? Please entre course 1: Id or 2: Name. Your choice number: ");
-                        int choiceNum = tpMethod.validateInputaNum();
+                        int choiceNum = tpMethod.validateInputInt();
                         switch (choiceNum) {
                             case 1 -> {
                                 System.out.println("Course Id: ");
-                                int findId = tpMethod.validateInputaNum();
+                                int findId = tpMethod.validateInputInt();
                                 if (r.getCourse().getId() == findId) {
                                     printResults(r);
                                 } else {
@@ -187,11 +191,11 @@ public class ResultsDaoImp implements ResultsDao {
                 for (Results r : listResults) {
                     if (r.getStudent().getFirstName().equalsIgnoreCase(stuFirstName) && r.getStudent().getLastName().equalsIgnoreCase(stuLastName)) {
                         System.out.println("Which Course results you are looking for? Please entre course 1: Id or 2: Name. Your choice number: ");
-                        int choiceNum = tpMethod.validateInputaNum();
+                        int choiceNum = tpMethod.validateInputInt();
                         switch (choiceNum) {
                             case 1 -> {
                                 System.out.println("Course Id: ");
-                                int findId = tpMethod.validateInputaNum();
+                                int findId = tpMethod.validateInputInt();
                                 if (r.getCourse().getId() == findId) {
                                     printResults(r);
                                 } else {

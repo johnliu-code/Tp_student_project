@@ -6,6 +6,8 @@
 package InterfaceDao;
 
 import Model.Course;
+
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ public interface CourseDao {
     void delete(Course course);
     void update(Course course);
     void display(Course course);
+    Iterator<Course> findCourse(Course course);
     
     List<Course> findAll();
 }
